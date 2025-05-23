@@ -38,7 +38,7 @@ async def read_products_by_category_and_section(categoria: str, secao: str):
         "message": f"Produtos da categoria {categoria} na seção {secao}",
         "categoria": categoria,
         "secao": secao
-#aqui o produto "botas" ficaaria com a rota Masculinos/Botas/id do produto
+#aqui o produto "botas" ficaria com a rota Masculinos/Botas/id do produto
     }
 
 # Rota para criar nova categoria (apenas admin)
