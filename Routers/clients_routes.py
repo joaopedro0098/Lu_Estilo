@@ -7,7 +7,7 @@ async def read_clients(
     nome: str = Query(None, description="Filtrar por nome"),
     email: str = Query(None, description="Filtrar por email"),
     pagina: int = Query(1, description="Número da página"),
-    limite: int = Query(10, description="Itens por página")
+    limite: int = Query(5, description="Itens por página")
 
 ):
     return {
