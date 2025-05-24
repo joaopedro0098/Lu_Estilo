@@ -35,6 +35,18 @@ Desenvolvi esta API para gerenciar um sistema completo de e-commerce, incluindo:
 └── Tests/             # Testes automatizados
 ```
 
+## Dependencias 
+
+- uvicorn: Gerencia o servidor de forma asyncrona
+- sqlalchemy: Faz a criação de modelos para o banco para estruturar no banco
+- passlib[bcrypt] para criptografar as senhas dentro do banco de dados
+- python-jose vai permitir criarmos os tokens JWT por questão de segurança
+- python-dotenv le as variaveis do arquivo .env como: senhas de banco de dados, 
+chaves secretas, portas de conexão, tokens de API dentre outros
+- python multipart é para possibilitar o envio de arquivos diferentes de texto para 
+o navegador, como imagens, pdf, vídeos
+- alembic para possibilitar o funcionamento das migrations
+
 ## 🔧 Instalação
 
 git clone https://github.com/joaopedro0098/Lu_Estilo.git
