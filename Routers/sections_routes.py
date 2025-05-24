@@ -9,6 +9,7 @@ SECOES_VALIDAS = ["masculino", "feminino"]
 
 @router.get("/")
 async def read_sections(
+    db: Session = Depends(get_db),  #
     pagina: int = Query(1, description="Número da página"),
     limite: int = Query(10, description="Itens por página")
 ):

@@ -52,9 +52,13 @@ async def create_category(db: Session = Depends(get_db)):
 # Rota para atualizar categoria (apenas admin)
 @router.put("/{categoria}")
 async def update_category(categoria: str, db: Session = Depends(get_db)):
+    if categoria.lower() not in CATEGORIAS_VALIDAS:  # Adicionar esta validação
+        return {"error": "Categoria não encontrada"}
     return {"message": f"Atualizar categoria {categoria}"}
 
 # Rota para deletar categoria (apenas admin)
 @router.delete("/{categoria}")
 async def delete_category(categoria: str, db: Session = Depends(get_db)):
+    if categoria.lower() not in CATEGORIAS_VALIDAS:  # Adicionar esta validação
+        return {"error": "Categoria não encontrada"}
     return {"message": f"Deletar categoria {categoria}"}

@@ -8,26 +8,24 @@ import os
 # Adiciona o diretório raiz ao path do Python
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# Importa todas as models
-from Models.auth_models import Base as AuthBase
-from Models.clients_models import Base as ClientsBase
-from Models.products_models import Base as ProductsBase
-from Models.categories_models import Base as CategoriesBase
-from Models.sections_models import Base as SectionsBase
-from Models.orders_models import Base as OrdersBase
+# Importa a Base centralizada
+from Database.database import Base
 
-# Congiguração do objeto config
+# Importa todas as models para que o Alembic possa detectá-las
+from Models import auth_models, clients_models, products_models, categories_models, sections_models, orders_models
+
+# Configuração do objeto config
 config = context.config
 
 # Interpretar o arquivo de configuração para logging em Python
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Adiciona todas as metadata das models
-target_metadata = [AuthBase.metadata, ClientsBase.metadata, ProductsBase.metadata, 
-                  CategoriesBase.metadata, SectionsBase.metadata, OrdersBase.metadata]
+# Adiciona a metadata da Base
+target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
+    """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
@@ -40,6 +38,7 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 def run_migrations_online() -> None:
+    """Run migrations in 'online' mode."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",

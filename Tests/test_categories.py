@@ -28,11 +28,11 @@ def test_create_category():
     assert response.json()["message"] == "Criar nova categoria"
 
 def test_update_category():
-    response = client.put("/categorias/1")
+    response = client.put("/categorias/tenis")
     assert response.status_code == 200
-    assert response.json()["message"] == "Atualizar categoria 1"
+    assert response.json()["message"] == "Atualizar categoria tenis"
 
 def test_delete_category():
-    response = client.delete("/categorias/1")
+    response = client.delete("/categorias/tenis")
     assert response.status_code == 200
-    assert response.json()["message"] == "Deletar categoria 1"
+    assert response.json()["message"] == "Deletar categoria tenis"

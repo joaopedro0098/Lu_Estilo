@@ -5,6 +5,9 @@ from datetime import date
 
 router = APIRouter()
 
+STATUS_VALIDOS = ["pendente", "confirmado", "em_preparo", "pronto", "entregue", "cancelado"]
+
+
 @router.get("/")
 async def read_orders(
     db: Session = Depends(get_db),
@@ -29,8 +32,14 @@ async def read_orders(
 
 # Rota para criar um novo pedido
 @router.post("/")
-async def create_order(db: Session = Depends(get_db)):
-    return {"message": "Criar novo pedido"}
+async def create_order(db: Session = Depends(get_db), status: str = None):
+    if status and status.lower() not in STATUS_VALIDOS:
+        return {"error": "Status inválido"}
+    return {
+        "message": "Criar novo pedido",
+        "status_possiveis": STATUS_VALIDOS
+    }
+
 
 # Rota para obter pedido específico
 @router.get("/{pedido_id}")
@@ -42,7 +51,9 @@ async def read_order(pedido_id: int, db: Session = Depends(get_db)):
 
 # Rota para atualizar um pedido existente
 @router.put("/{pedido_id}")
-async def update_order(pedido_id: int, db: Session = Depends(get_db)):
+async def update_order(pedido_id: int, db: Session = Depends(get_db), status: str = None):
+    if status and status.lower() not in STATUS_VALIDOS:
+        return {"error": "Status inválido"}
     return {
         "message": f"Atualizar pedido {pedido_id}",
         "pedido_id": pedido_id
