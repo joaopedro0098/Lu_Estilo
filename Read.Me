@@ -1,0 +1,77 @@
+Olá! Sou João Pedro e desenvolvi esta API RESTful para o sistema Lu Estilo. Esta API foi construída utilizando FastAPI, um framework moderno e de alto desempenho para Python.
+
+## 🚀 Sobre o Projeto
+
+Desenvolvi esta API para gerenciar um sistema completo de e-commerce, incluindo:
+- Autenticação de usuários
+- Gestão de clientes
+- Catálogo de produtos
+- Categorias e seções
+- Pedidos
+- Integração com WhatsApp
+
+## 🛠️ Tecnologias Utilizadas
+
+- Python 3.x
+- FastAPI
+- SQLAlchemy (ORM)
+- Pydantic
+- JWT para autenticação
+- Pytest para testes
+
+## 📋 Estrutura do Projeto
+
+```
+├── main.py              # Ponto de entrada da aplicação
+├── Routers/            # Rotas da API
+│   ├── auth_routes.py
+│   ├── clients_routes.py
+│   ├── products_routes.py
+│   ├── categories_routes.py
+│   ├── sections_routes.py
+│   ├── orders_routes.py
+│   └── whatsapp_routes.py
+├── Models/             # Modelos de dados
+└── Tests/             # Testes automatizados
+```
+
+## 🔧 Instalação
+
+git clone https://github.com/joaopedro0098/Lu_Estilo.git
+cd Lu_Estilo
+
+## 🚀 Como Executar
+
+Para iniciar o servidor de desenvolvimento:
+```bash
+uvicorn main:app --reload
+```
+
+## 📚 Documentação da API
+
+A documentação interativa da API está disponível em:
+- Swagger UI: `http://localhost:8000/docs`
+- ReDoc: `http://localhost:8000/redoc`
+
+## 🔐 Endpoints Principais
+
+- `/auth` - Autenticação e registro de usuários
+- `/clientes` - Gestão de clientes
+- `/produtos` - Catálogo de produtos
+- `/categorias` - Categorias de produtos
+- `/secoes` - Seções do catálogo
+- `/pedidos` - Gestão de pedidos
+- `/whatsapp` - Integração com WhatsApp
+
+## 🧪 Testes
+
+Para executar os testes:
+```bash
+pytest
+```
+
+## 📝 Licença
+Este projeto está sob a licença MIT.
+
+## 📧 Contato
+Para mais informações ou suporte, entre em contato comigo através do email: [joaopedro.lemos0098@gmail.com] 
