@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
+from sqlalchemy.orm import Session
+from dependencies.database import get_db
 
 router = APIRouter()
 
@@ -23,6 +25,7 @@ async def read_sections(
 @router.get("/{secao}")
 async def read_products_by_section(
     secao: str,
+    db: Session = Depends(get_db),
     categoria: str = Query(None, description="Filtrar por categoria"),
     preco: float = Query(None, description="Filtrar por preço"),
     disponivel: bool = Query(None, description="Filtrar por disponibilidade"),
@@ -46,19 +49,19 @@ async def read_products_by_section(
 
 # Rota para criar nova seção (apenas admin)
 @router.post("/")
-async def create_section():
+async def create_section(db: Session = Depends(get_db)):
     return {"message": "Criar nova seção"}
 
 # Rota para atualizar seção (apenas admin)
 @router.put("/{secao}")
-async def update_section(secao: str):
+async def update_section(secao: str, db: Session = Depends(get_db)):
     if secao.lower() not in SECOES_VALIDAS:
         return {"error": "Seção não encontrada"}
     return {"message": f"Atualizar seção {secao}"}
 
 # Rota para deletar seção (apenas admin)
 @router.delete("/{secao}")
-async def delete_section(secao: str):
+async def delete_section(secao: str, db: Session = Depends(get_db)):
     if secao.lower() not in SECOES_VALIDAS:
         return {"error": "Seção não encontrada"}
     return {"message": f"Deletar seção {secao}"}

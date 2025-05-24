@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
+from sqlalchemy.orm import Session
+from dependencies.database import get_db
 
 router = APIRouter()
 
 @router.get("/")
 async def read_products(
+    db: Session = Depends(get_db),
     categoria: str = Query(None, description="Filtrar por categoria"),
     preco: float = Query(None, description="Filtrar por preço"),
     disponivel: bool = Query(None, description="Filtrar por disponibilidade"),
@@ -23,12 +26,12 @@ async def read_products(
 
 # Rota para criar um novo produto
 @router.post("/")
-async def create_product():
+async def create_product(db: Session = Depends(get_db)):
     return {"message": "Criar novo produto"}
 
 # Rota para obter produto específico
 @router.get("/{produto_id}")
-async def read_product(produto_id: int):
+async def read_product(produto_id: int, db: Session = Depends(get_db)):
     return {
         "message": f"Detalhes do produto {produto_id}",
         "produto_id": produto_id
@@ -36,7 +39,7 @@ async def read_product(produto_id: int):
 
 # Rota para atualizar um produto existente
 @router.put("/{produto_id}")
-async def update_product(produto_id: int):
+async def update_product(produto_id: int, db: Session = Depends(get_db)):
     return {
         "message": f"Atualizar produto {produto_id}",
         "produto_id": produto_id
@@ -44,7 +47,7 @@ async def update_product(produto_id: int):
 
 # Rota para deletar um produto existente
 @router.delete("/{produto_id}")
-async def delete_product(produto_id: int):
+async def delete_product(produto_id: int, db: Session = Depends(get_db)):
     return {
         "message": f"Deletar produto {produto_id}",
         "produto_id": produto_id

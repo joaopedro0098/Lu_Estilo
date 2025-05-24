@@ -1,10 +1,13 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
+from sqlalchemy.orm import Session
+from dependencies.database import get_db
 from datetime import date
 
 router = APIRouter()
 
 @router.get("/")
 async def read_orders(
+    db: Session = Depends(get_db),
     periodo_inicio: date = Query(None, description="Início do período"),
     periodo_fim: date = Query(None, description="Fim do período"),
     secao: str = Query(None, description="Seção dos produtos"),
@@ -26,12 +29,12 @@ async def read_orders(
 
 # Rota para criar um novo pedido
 @router.post("/")
-async def create_order():
+async def create_order(db: Session = Depends(get_db)):
     return {"message": "Criar novo pedido"}
 
 # Rota para obter pedido específico
 @router.get("/{pedido_id}")
-async def read_order(pedido_id: int):
+async def read_order(pedido_id: int, db: Session = Depends(get_db)):
     return {
         "message": f"Detalhes do pedido {pedido_id}",
         "pedido_id": pedido_id
@@ -39,7 +42,7 @@ async def read_order(pedido_id: int):
 
 # Rota para atualizar um pedido existente
 @router.put("/{pedido_id}")
-async def update_order(pedido_id: int):
+async def update_order(pedido_id: int, db: Session = Depends(get_db)):
     return {
         "message": f"Atualizar pedido {pedido_id}",
         "pedido_id": pedido_id
@@ -47,7 +50,7 @@ async def update_order(pedido_id: int):
 
 # Rota para deletar um pedido existente
 @router.delete("/{pedido_id}")
-async def delete_order(pedido_id: int):
+async def delete_order(pedido_id: int, db: Session = Depends(get_db)):
     return {
         "message": f"Deletar pedido {pedido_id}",
         "pedido_id": pedido_id

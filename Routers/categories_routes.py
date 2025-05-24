@@ -1,4 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, Depends
+from sqlalchemy.orm import Session
+from dependencies.database import get_db
+
 
 router = APIRouter()
 
@@ -8,7 +11,7 @@ SECOES_VALIDAS = ["feminino", "masculino"]
 
 # Rotas para listar todas as categorias
 @router.get("/")
-async def read_categories():
+async def read_categories(db: Session = Depends(get_db)):
     return {
         "message": "Lista de categorias",
         "categorias": CATEGORIAS_VALIDAS
@@ -16,7 +19,7 @@ async def read_categories():
 
 # Rota para listar produtos por categoria
 @router.get("/{categoria}")
-async def read_products_by_category(categoria: str):
+async def read_products_by_category(categoria: str, db: Session = Depends(get_db)):
     if categoria.lower() not in CATEGORIAS_VALIDAS:
         return {"error": "Categoria não encontrada"}
     
@@ -27,7 +30,7 @@ async def read_products_by_category(categoria: str):
 
 # Rota para listar produtos por categoria e seção
 @router.get("/{categoria}/{secao}")
-async def read_products_by_category_and_section(categoria: str, secao: str):
+async def read_products_by_category_and_section(categoria: str, secao: str, db: Session = Depends(get_db)):
     if categoria.lower() not in CATEGORIAS_VALIDAS:
         return {"error": "Categoria não encontrada"}
     
@@ -43,15 +46,15 @@ async def read_products_by_category_and_section(categoria: str, secao: str):
 
 # Rota para criar nova categoria (apenas admin)
 @router.post("/")
-async def create_category():
+async def create_category(db: Session = Depends(get_db)):
     return {"message": "Criar nova categoria"}
 
 # Rota para atualizar categoria (apenas admin)
 @router.put("/{categoria}")
-async def update_category(categoria: str):
+async def update_category(categoria: str, db: Session = Depends(get_db)):
     return {"message": f"Atualizar categoria {categoria}"}
 
 # Rota para deletar categoria (apenas admin)
 @router.delete("/{categoria}")
-async def delete_category(categoria: str):
+async def delete_category(categoria: str, db: Session = Depends(get_db)):
     return {"message": f"Deletar categoria {categoria}"}
