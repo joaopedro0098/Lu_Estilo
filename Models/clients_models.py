@@ -16,4 +16,4 @@ class Client(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
     # Relacionamentos
-    orders = relationship("Order", back_populates="client")
+    orders = relationship("Order", back_populates="client", lazy="select")

@@ -23,8 +23,8 @@ class Order(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
     # Relacionamentos
-    client = relationship("Client", back_populates="orders")
-    items = relationship("OrderItem", back_populates="order")
+    client = relationship("Client", back_populates="orders", lazy="select")
+    items = relationship("OrderItem", back_populates="order", lazy="select")
 
 class OrderItem(Base):
     __tablename__ = "order_items"
