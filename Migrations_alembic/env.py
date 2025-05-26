@@ -12,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from Database.database import Base
 
 # Importa todas as models para que o Alembic possa detectá-las
-from Models import auth_models, clients_models, products_models, categories_models, sections_models, orders_models
+from Models import auth_models, clients_models, products_models, orders_models
 
 # Configuração do objeto config
 config = context.config

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Enum
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Enum, Table
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 import enum
@@ -12,6 +12,17 @@ class OrderStatus(enum.Enum):
     DELIVERED = "delivered"
     CANCELLED = "cancelled"
 
+# Tabela de associação entre Order e Product
+order_products = Table(
+    'order_products',
+    Base.metadata,
+    Column('order_id', Integer, ForeignKey('orders.id')),
+    Column('product_id', Integer, ForeignKey('products.id')),
+    Column('quantity', Integer, nullable=False),
+    Column('unit_price', Float, nullable=False),
+    Column('created_at', DateTime(timezone=True), server_default=func.now())
+)
+
 class Order(Base):
     __tablename__ = "orders"
 
@@ -23,19 +34,7 @@ class Order(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
     # Relacionamentos
-    client = relationship("Client", back_populates="orders", lazy="select")
-    items = relationship("OrderItem", back_populates="order", lazy="select")
+    client = relationship("Client", back_populates="orders")
+    products = relationship("Product", secondary=order_products, back_populates="orders")
 
-class OrderItem(Base):
-    __tablename__ = "order_items"
-
-    id = Column(Integer, primary_key=True, index=True)
-    order_id = Column(Integer, ForeignKey("orders.id"))
-    product_id = Column(Integer, ForeignKey("products.id"))
-    quantity = Column(Integer, nullable=False)
-    unit_price = Column(Float, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
-    # Relacionamentos
-    order = relationship("Order", back_populates="items")
-    product = relationship("Product", back_populates="order_items")
+__all__ = ['Order', 'OrderStatus', 'order_products']

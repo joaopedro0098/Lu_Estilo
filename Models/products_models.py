@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Date, Table
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from .auth_models import Base
@@ -9,13 +9,14 @@ class Product(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False)
     description = Column(String)
-    price = Column(Float, nullable=False)
+    value = Column(Float, nullable=False)
+    barcode = Column(String, unique=True)
+    section = Column(String)
+    due_date = Column(Date, nullable=True)
+    img_url = Column(String)
     stock = Column(Integer, default=0)
-    category_id = Column(Integer, ForeignKey("categories.id"))
-    is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     
     # Relacionamentos
-    category = relationship("Category", back_populates="products")
-    order_items = relationship("OrderItem", back_populates="product")
+    orders = relationship("Order", secondary="order_products", back_populates="products")
