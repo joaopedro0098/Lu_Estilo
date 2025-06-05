@@ -3,11 +3,11 @@ from typing import List
 from datetime import datetime
 
 class OrderProductBase(BaseModel):
-    product_id: int
+    product_name: str
     quantity: int
 
 class OrderProduct(OrderProductBase):
-    name: str
+    product_id: int
     value: float
     section: str
 
@@ -15,18 +15,20 @@ class OrderProduct(OrderProductBase):
         from_attributes = True
 
 class OrderBase(BaseModel):
-    client_id: int
+    client_name: str
     products: List[OrderProductBase]
 
 class OrderCreate(OrderBase):
     pass
 
 class OrderUpdate(BaseModel):
-    client_id: int | None = None
+    client_name: str | None = None
     status: str | None = None
+    products: List[OrderProductBase] | None = None
 
 class Order(OrderBase):
     id: int
+    client_id: int
     status: str
     total_amount: float
     created_at: datetime
